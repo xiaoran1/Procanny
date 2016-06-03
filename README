@@ -1,0 +1,41 @@
+Name: Xiaoran Huang
+Student No: 1307822
+Unix ID: xiaoran1
+Lecture: Lecture A1/EA1
+Instructor: Paul Lu
+LAB section: LAB D02
+TA: Soham
+
+Description:
+My procanny will first get the environment virable and try to clear everything in the logfile that previously 
+been recorded, then i will open the config file to read all of the process names and the max time at the first line that 
+needed to be monitored, after that, the procanny will go for a loop to "pgrep" all the PID related to the process name that it just get
+from the config file and store the PID with its corresponding name into a structure. After that, procanny will start
+go through the loop based on the size of the structure, for each structure element, it will fork a child process
+to monitor the a PID, then wait for the max sleep time and kill that process with the corresponding PID.(my c code
+also contains a function that works for print proper message for different situtions that the program encounters
+during the execution to the logfile).
+At any time, the user is allowed to change the configuration file to add, remove, or change any line in the file. 
+The user is allowed to send a hangup signal(SIGHUP) to the parent procnanny process which forces procnanny to re-read the configuration file
+Any process currently being monitored will continue to be monitored even if the program name has been removed from the current configuration file. However, 
+in the future, that program name will no longer be monitored.
+the user is allowed to send an interrupt signal (SIGINT) to the parent procnanny process which forces procnanny to close any open files that it might have, 
+kill each of its children (even if they are currently monitoring a process), and free up all resources (e.g., memory, signals from children that have exited). 
+In essence, an interrupt signal is used to cleanly exit from the parent procnanny process.
+
+In this assignment, I assume the following things:
+the max length of a PID is 28.
+the max number of process need to be monitored is 128.
+the max number of child process is 128
+the max length of each process name is 255.
+before user called sighup and re-read the config file, the program has already finished reading the previous 
+config file and done the jod of depacthing each process to a child process already 
+the previous records in the logfile will be cleared in the beginning when a new procanny starts to run.
+Before actually running all the program, the procanny will kill the other procanny that is still running
+except itself(the latest).
+
+Exectution:
+just run Makefile in the terminal, then set the environment variable by "export PROCNANNYLOGS="(path here)")
+in the bash, after that, run"./procanny (config file name)" to execute the program, the memwatch records is then
+inside the file"memwatch.log" and the logfile with any messages will be shown in the absolute path that user
+type in the export command.
